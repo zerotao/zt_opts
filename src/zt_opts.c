@@ -296,15 +296,15 @@ _zt_opts_help_stdout_printer(zt_opts_def_t * def) {
     char * lopt = def->lopt;
     char * arg  = def->arg;
 
-    if (sopt != zt_opts_NSO || lopt != zt_opts_NLO) {
+    if (sopt != ZT_OPTS_NSO || lopt != ZT_OPTS_NLO) {
         int depth = 0;
 
         depth = printf("   %c%c%c %s%s %s",
-                       sopt != zt_opts_NSO ? '-' : ' ',
-                       sopt != zt_opts_NSO ? sopt : ' ',
-                       sopt != zt_opts_NSO && lopt != zt_opts_NLO ? ',' : ' ',
-                       lopt != zt_opts_NLO ? "--" : "  ",
-                       lopt != zt_opts_NLO ? lopt : "",
+                       sopt != ZT_OPTS_NSO ? '-' : ' ',
+                       sopt != ZT_OPTS_NSO ? sopt : ' ',
+                       sopt != ZT_OPTS_NSO && lopt != ZT_OPTS_NLO ? ',' : ' ',
+                       lopt != ZT_OPTS_NLO ? "--" : "  ",
+                       lopt != ZT_OPTS_NLO ? lopt : "",
                        arg != NULL ? arg : ""
                        );
 
@@ -399,7 +399,7 @@ zt_opts_validate_default(zt_opts_def_t * args, zt_opts_error error) {
     int x;
 
     for (i = 0; args[i].cb; i++) {
-        if (args[i].sopt == zt_opts_NSO && args[i].lopt == zt_opts_NLO) {
+        if (args[i].sopt == ZT_OPTS_NSO && args[i].lopt == ZT_OPTS_NLO) {
             error(EINVAL, "Invalid argdef initialization #%d (must include at least one of short opt or long opt)", i);
         }
 
@@ -407,7 +407,7 @@ zt_opts_validate_default(zt_opts_def_t * args, zt_opts_error error) {
             error(EINVAL, "Invalid argdef initialization #%d (must include help definition)", i);
         }
 
-        if (args[i].sopt != zt_opts_NSO &&
+        if (args[i].sopt != ZT_OPTS_NSO &&
             ((args[i].sopt < '0' || args[i].sopt > '9') &&   /* 0x30-0x39 */
              (args[i].sopt < 'A' || args[i].sopt > 'Z') &&   /* 0x41-0x5A */
              (args[i].sopt < 'a' || args[i].sopt > 'z'))) {  /* 0x61-0x7A */
@@ -420,11 +420,11 @@ zt_opts_validate_default(zt_opts_def_t * args, zt_opts_error error) {
                 continue;
             }
 
-            if (args[x].sopt != zt_opts_NSO && args[x].sopt == args[i].sopt) {
+            if (args[x].sopt != ZT_OPTS_NSO && args[x].sopt == args[i].sopt) {
                 error(EINVAL, "Duplicate short options: #%d and #%d", i, x);
             }
 
-            if (args[x].lopt != zt_opts_NLO && args[i].lopt != zt_opts_NLO &&
+            if (args[x].lopt != ZT_OPTS_NLO && args[i].lopt != ZT_OPTS_NLO &&
                     (strcmp(args[x].lopt, args[i].lopt) == 0)) {
                 error(EINVAL, "Duplicate long options: #%d and #%d", i, x);
             }
@@ -481,9 +481,9 @@ zt_opts_process_args(int * argc, char ** argv, zt_opts_def_t * args, zt_opts_val
 
 AGAIN:
             for (x = 0; args[x].cb; x++) {
-                if ((len == 0 && args[x].sopt != zt_opts_NSO && *p == args[x].sopt) || /* short opt */
+                if ((len == 0 && args[x].sopt != ZT_OPTS_NSO && *p == args[x].sopt) || /* short opt */
                     /* long opt */
-                    (args[x].lopt != zt_opts_NLO && strlen(args[x].lopt) == len &&
+                    (args[x].lopt != ZT_OPTS_NLO && strlen(args[x].lopt) == len &&
                      strncmp(p, args[x].lopt, len) == 0)) {
                     int consumed = 0;
 

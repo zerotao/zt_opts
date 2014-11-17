@@ -15,9 +15,9 @@ SYNOPSIS
 #include <zt_opts.h>
 
 
-#define zt_opts_NSO -1
-#define zt_opts_NLO NULL
-#define zt_opts_END() 0, NULL, NULL, NULL, NULL, NULL
+#define ZT_OPTS_NSO -1
+#define ZT_OPTS_NLO NULL
+#define ZT_OPTS_END() 0, NULL, NULL, NULL, NULL, NULL
 
 typedef int (*zt_opts_error)(int code, char * fmt, ...);
 
@@ -129,8 +129,8 @@ main(int argc, char ** argv) {
         { 'f',        "func",     "arg",          local_func_with_args, &local_func_data, "generic function" },
         { 'l',        "long",     "int",          zt_opts_long,          &long_int,        "a long integer"   },
         { 'q',        zt_opts_NLO, NULL,           zt_opts_flag_int,      &flag,            "short only flag"  },
-        { zt_opts_NSO, "quiet",    NULL,           zt_opts_flag_int,      &flag2,           "long only flag"   },
-        { zt_opts_END() }
+        { ZT_OPTS_NSO, "quiet",    NULL,           zt_opts_flag_int,      &flag2,           "long only flag"   },
+        { ZT_OPTS_END() }
     };
 
     int               nargc = argc;

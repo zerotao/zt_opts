@@ -25,9 +25,9 @@
 
 BEGIN_C_DECLS
 
-#define zt_opts_NSO -1
-#define zt_opts_NLO NULL
-#define zt_opts_END() 0, NULL, NULL, NULL, NULL, NULL
+#define ZT_OPTS_NSO -1
+#define ZT_OPTS_NLO NULL
+#define ZT_OPTS_END() 0, NULL, NULL, NULL, NULL, NULL
 
 typedef int (*zt_opts_error)(int code, char * fmt, ...);
 typedef struct zt_opts_def zt_opts_def_t;

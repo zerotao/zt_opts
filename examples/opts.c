@@ -53,9 +53,9 @@ main(int argc, char ** argv) {
         { 's',        "string",   "text",         zt_opts_string,        &str,             LONG_DESC          },
         { 'f',        "func",     "arg",          local_opt_long,       &local_func_data, "generic function" },
         { 'l',        "long",     "int",          zt_opts_long,          &long_int,        "a long integer"   },
-        { 'q',        zt_opts_NLO, NULL,           zt_opts_flag_int,      &flag,            "short only flag"  },
-        { zt_opts_NSO, "quiet",    NULL,           zt_opts_flag_int,      &flag2,           "long only flag"   },
-        { zt_opts_END() }
+        { 'q',        ZT_OPTS_NLO, NULL,           zt_opts_flag_int,      &flag,            "short only flag"  },
+        { ZT_OPTS_NSO, "quiet",    NULL,           zt_opts_flag_int,      &flag2,           "long only flag"   },
+        { ZT_OPTS_END() }
     };
 
     int               nargc = argc;

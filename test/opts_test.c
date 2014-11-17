@@ -80,12 +80,12 @@ basic_opts_tests(struct zt_unit_test * test, void * data UNUSED) {
     struct zt_opts_def options[] = {
         { 'h',        "help",     NULL, zt_opts_help_stdout, "[options]",    "This help text"     },
         { 'b',        "bool",     NULL, zt_opts_bool_int,    &bool_type,     "boolean_test"       },
-        { zt_opts_NSO, "string",   NULL, zt_opts_string,      &str,           TEST_LONG_STRING     },
+        { ZT_OPTS_NSO, "string",   NULL, zt_opts_string,      &str,           TEST_LONG_STRING     },
         { 'f',        "func",     NULL, local_func,         &local_data,    "generic func test"  },
         { 'l',        "long",     NULL, zt_opts_long,        &long_integer,  "long integer test"  },
         { 'L',        "long2",    NULL, zt_opts_long,        &long_integer2, "long integer2 test" },
-        { zt_opts_NSO, "flag",     NULL, zt_opts_flag_int,    &flag,          "flag test"          },
-        { 'q',        zt_opts_NLO, NULL, zt_opts_flag_int,    &flag2,         "flag2 test"         },
+        { ZT_OPTS_NSO, "flag",     NULL, zt_opts_flag_int,    &flag,          "flag test"          },
+        { 'q',        ZT_OPTS_NLO, NULL, zt_opts_flag_int,    &flag2,         "flag2 test"         },
         { zt_opts_END() }
     };
 
