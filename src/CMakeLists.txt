@@ -1,10 +1,10 @@
 set(ZT_OPTS_SRCS zt_opts.c)
 set(ZT_OPTS_HDRS zt_opts.h)
 
-add_library(ztopts ${ZT_OPTS_SRCS} ${ZT_OPTS_HDRS})
+add_library(zt_opts ${ZT_OPTS_SRCS} ${ZT_OPTS_HDRS})
 
 set(OPTS_INSTALL_HEADERS zt_opts.h)
-set(OPTS_INSTALL_TARGETS ztopts)
+set(OPTS_INSTALL_TARGETS zt_opts)
 
 if (WIN32)
     if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
