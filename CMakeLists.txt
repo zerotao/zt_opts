@@ -1,4 +1,5 @@
-cmake_minimum_required(VERSION 2.8.4)
+cmake_minimum_required(VERSION 2.8.12)
+cmake_policy(SET CMP0042 NEW) # use rpath by default on OSX
 
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 
