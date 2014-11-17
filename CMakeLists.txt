@@ -10,6 +10,8 @@ set(PACKAGE_VERSION ${PACKAGE_MAJOR_VERSION}.${PACKAGE_MINOR_VERSION}.${PACKAGE_
 set(PACKAGE_NAME ${PACKAGE}-${PACKAGE_VERSION})
 set(PACKAGE_BUGREPORT "jshiffer@zerotao.org")
 
+set(BUILD_SHARED_LIBS ON)
+
 include(CheckDefIncludeFiles)
 
 check_def_include_files(stdint.h HAVE_STDINT_H)
