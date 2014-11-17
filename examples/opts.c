@@ -5,11 +5,11 @@
 #include <zt_opts.h>
 
 static int
-local_opt_long(int argn, int defn, int * argc, char ** argv, zt_opt_def_t * def, zt_opt_error error) {
+local_opt_long(int argn, int defn, int * argc, char ** argv, zt_opts_def_t * def, zt_opts_error error) {
     long   result;
     char * end = NULL;
     int    args_consumed = 0;
-    char * arg = zt_opt_get_value(argn, defn, argv, def, &args_consumed, error);
+    char * arg = zt_opts_get_value(argn, defn, argv, def, &args_consumed, error);
 
     errno  = 0;
     result = strtol(arg, &end, 0);
@@ -47,21 +47,21 @@ main(int argc, char ** argv) {
     };
 
     #define LONG_DESC "This is a really long string intended to overflow the wrap widths so that we can test how well they work.  This is only a test"
-    struct zt_opt_def options[] = {
-        { 'h',        "help",     NULL,           zt_opt_help_stdout,   "[options]",      "this help text"   },
-        { 'b',        "bool",     "[true|false]", zt_opt_bool_int,      &bool_type,       "boolean test"     },
-        { 's',        "string",   "text",         zt_opt_string,        &str,             LONG_DESC          },
+    struct zt_opts_def options[] = {
+        { 'h',        "help",     NULL,           zt_opts_help_stdout,   "[options]",      "this help text"   },
+        { 'b',        "bool",     "[true|false]", zt_opts_bool_int,      &bool_type,       "boolean test"     },
+        { 's',        "string",   "text",         zt_opts_string,        &str,             LONG_DESC          },
         { 'f',        "func",     "arg",          local_opt_long,       &local_func_data, "generic function" },
-        { 'l',        "long",     "int",          zt_opt_long,          &long_int,        "a long integer"   },
-        { 'q',        ZT_OPT_NLO, NULL,           zt_opt_flag_int,      &flag,            "short only flag"  },
-        { ZT_OPT_NSO, "quiet",    NULL,           zt_opt_flag_int,      &flag2,           "long only flag"   },
-        { ZT_OPT_END() }
+        { 'l',        "long",     "int",          zt_opts_long,          &long_int,        "a long integer"   },
+        { 'q',        zt_opts_NLO, NULL,           zt_opts_flag_int,      &flag,            "short only flag"  },
+        { zt_opts_NSO, "quiet",    NULL,           zt_opts_flag_int,      &flag2,           "long only flag"   },
+        { zt_opts_END() }
     };
 
     int               nargc = argc;
     char           ** pargv = argv;
 
-    int               ret   = zt_opt_process_args(&nargc, pargv, options, NULL, NULL);
+    int               ret   = zt_opts_process_args(&nargc, pargv, options, NULL, NULL);
     if (ret < 0) {
         fprintf(stderr, "Error processing args");
         exit(1);

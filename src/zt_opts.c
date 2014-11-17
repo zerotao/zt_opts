@@ -59,18 +59,18 @@
 /* end indention macros */
 
 char *
-zt_opt_error_str(int code, char * fmt, ...) {
+zt_opts_error_str(int code, char * fmt, ...) {
     char  * ret;
     va_list ap;
 
     va_start(ap, fmt);
-    ret = zt_opt_verror_str(code, fmt, ap);
+    ret = zt_opts_verror_str(code, fmt, ap);
     va_end(ap);
     return ret;
 }
 
 char *
-zt_opt_verror_str(int code, char * fmt, va_list ap) {
+zt_opts_verror_str(int code, char * fmt, va_list ap) {
     char * msg          = NULL;
     char * user_message = NULL;
     char * final        = NULL;
@@ -87,7 +87,7 @@ zt_opt_verror_str(int code, char * fmt, va_list ap) {
 }
 
 int
-zt_opt_verror_default(int code, char * fmt, va_list ap) {
+zt_opts_verror_default(int code, char * fmt, va_list ap) {
     char * msg = NULL;
 
     if (!code && !fmt) {
@@ -95,26 +95,26 @@ zt_opt_verror_default(int code, char * fmt, va_list ap) {
         return -1;
     }
 
-    msg = zt_opt_verror_str(code, fmt, ap);
+    msg = zt_opts_verror_str(code, fmt, ap);
     fprintf(stderr, "%s\n", msg);
     free(msg);
     return code;
 }
 
 int
-zt_opt_error_default(int code, char * fmt, ...) {
+zt_opts_error_default(int code, char * fmt, ...) {
     int     ret;
     va_list ap;
 
     va_start(ap, fmt);
-    ret = zt_opt_verror_default(code, fmt, ap);
+    ret = zt_opts_verror_default(code, fmt, ap);
     va_end(ap);
 
     return ret;
 }
 
 char *
-zt_opt_get_value(int argn, int defn, char ** argv, zt_opt_def_t * def, int *args_consumed, zt_opt_error error) {
+zt_opts_get_value(int argn, int defn, char ** argv, zt_opts_def_t * def, int *args_consumed, zt_opts_error error) {
     char * p      = argv[argn];
     char * pp     = NULL;
     char * result = NULL;
@@ -161,17 +161,17 @@ zt_opt_get_value(int argn, int defn, char ** argv, zt_opt_def_t * def, int *args
 }
 
 int
-zt_opt_null(int argn, int defn, int * argc, char ** argv, zt_opt_def_t * def, zt_opt_error error) {
+zt_opts_null(int argn, int defn, int * argc, char ** argv, zt_opts_def_t * def, zt_opts_error error) {
     return 0;
 }
 
 #ifdef HAVE_INTTYPES_H
 int
-zt_opt_intmax(int argn, int defn, int * argc, char ** argv, zt_opt_def_t * def, zt_opt_error error) {
+zt_opts_intmax(int argn, int defn, int * argc, char ** argv, zt_opts_def_t * def, zt_opts_error error) {
     intmax_t result;
     char   * end = NULL;
     int      args_consumed = 0;
-    char   * arg = zt_opt_get_value(argn, defn, argv, def, &args_consumed, error);
+    char   * arg = zt_opts_get_value(argn, defn, argv, def, &args_consumed, error);
 
     errno  = 0;
     result = strtoimax(arg, &end, 0);
@@ -196,11 +196,11 @@ zt_opt_intmax(int argn, int defn, int * argc, char ** argv, zt_opt_def_t * def, 
 #endif /* HAVE_INTTYPES_H */
 
 int
-zt_opt_long(int argn, int defn, int * argc, char ** argv, zt_opt_def_t * def, zt_opt_error error) {
+zt_opts_long(int argn, int defn, int * argc, char ** argv, zt_opts_def_t * def, zt_opts_error error) {
     long   result;
     char * end = NULL;
     int    args_consumed = 0;
-    char * arg = zt_opt_get_value(argn, defn, argv, def, &args_consumed, error);
+    char * arg = zt_opts_get_value(argn, defn, argv, def, &args_consumed, error);
 
     errno  = 0;
     result = strtol(arg, &end, 0);
@@ -223,11 +223,11 @@ zt_opt_long(int argn, int defn, int * argc, char ** argv, zt_opt_def_t * def, zt
 }
 
 int
-zt_opt_bool_int(int argn, int defn, int * argc, char ** argv, zt_opt_def_t * def, zt_opt_error error) {
+zt_opts_bool_int(int argn, int defn, int * argc, char ** argv, zt_opts_def_t * def, zt_opts_error error) {
     int    result;
     size_t len;
     int    args_consumed = 0;
-    char * arg = zt_opt_get_value(argn, defn, argv, def, &args_consumed, error);
+    char * arg = zt_opts_get_value(argn, defn, argv, def, &args_consumed, error);
 
     len = strlen(arg);
 
@@ -267,10 +267,10 @@ zt_opt_bool_int(int argn, int defn, int * argc, char ** argv, zt_opt_def_t * def
     }
 
     return args_consumed;
-} /* zt_opt_bool_int */
+} /* zt_opts_bool_int */
 
 int
-zt_opt_flag_int(int argn, int defn, int * argc, char ** argv, zt_opt_def_t * def, zt_opt_error error) {
+zt_opts_flag_int(int argn, int defn, int * argc, char ** argv, zt_opts_def_t * def, zt_opts_error error) {
     if (def[defn].cb_data) {
         *(int *)def[defn].cb_data += 1;
     }
@@ -279,9 +279,9 @@ zt_opt_flag_int(int argn, int defn, int * argc, char ** argv, zt_opt_def_t * def
 }
 
 int
-zt_opt_string(int argn, int defn, int * argc, char ** argv, zt_opt_def_t * def, zt_opt_error error) {
+zt_opts_string(int argn, int defn, int * argc, char ** argv, zt_opts_def_t * def, zt_opts_error error) {
     int    args_consumed = 0;
-    char * arg = zt_opt_get_value(argn, defn, argv, def, &args_consumed, error);
+    char * arg = zt_opts_get_value(argn, defn, argv, def, &args_consumed, error);
 
     if (arg) {
         *(char **)def[defn].cb_data = (void *)strdup(arg);
@@ -291,20 +291,20 @@ zt_opt_string(int argn, int defn, int * argc, char ** argv, zt_opt_def_t * def, 
 }
 
 static int
-_zt_opt_help_stdout_printer(zt_opt_def_t * def) {
+_zt_opts_help_stdout_printer(zt_opts_def_t * def) {
     char   sopt = def->sopt;
     char * lopt = def->lopt;
     char * arg  = def->arg;
 
-    if (sopt != ZT_OPT_NSO || lopt != ZT_OPT_NLO) {
+    if (sopt != zt_opts_NSO || lopt != zt_opts_NLO) {
         int depth = 0;
 
         depth = printf("   %c%c%c %s%s %s",
-                       sopt != ZT_OPT_NSO ? '-' : ' ',
-                       sopt != ZT_OPT_NSO ? sopt : ' ',
-                       sopt != ZT_OPT_NSO && lopt != ZT_OPT_NLO ? ',' : ' ',
-                       lopt != ZT_OPT_NLO ? "--" : "  ",
-                       lopt != ZT_OPT_NLO ? lopt : "",
+                       sopt != zt_opts_NSO ? '-' : ' ',
+                       sopt != zt_opts_NSO ? sopt : ' ',
+                       sopt != zt_opts_NSO && lopt != zt_opts_NLO ? ',' : ' ',
+                       lopt != zt_opts_NLO ? "--" : "  ",
+                       lopt != zt_opts_NLO ? lopt : "",
                        arg != NULL ? arg : ""
                        );
 
@@ -360,14 +360,14 @@ _zt_opt_help_stdout_printer(zt_opt_def_t * def) {
 }
 
 int
-zt_opt_help_stdout(int argn, int defn, int * argc, char ** argv, zt_opt_def_t * def, zt_opt_error error) {
+zt_opts_help_stdout(int argn, int defn, int * argc, char ** argv, zt_opts_def_t * def, zt_opts_error error) {
     int    i;
     char * help = def[defn].cb_data;
 
     printf("Usage: %s %s\nOptions:\n", argv[0], help ? help : "");
 
     for (i = 0; def[i].cb; i++) {
-        if (_zt_opt_help_stdout_printer(&def[i]) < 0) {
+        if (_zt_opts_help_stdout_printer(&def[i]) < 0) {
             error(0, "Programmer Error: must have a short or long opt at least", NULL);
             return -1;
         }
@@ -379,13 +379,13 @@ zt_opt_help_stdout(int argn, int defn, int * argc, char ** argv, zt_opt_def_t * 
 }
 
 int
-zt_opt_usage(const char * name, const char * help, zt_opt_def_t * opts) {
+zt_opts_usage(const char * name, const char * help, zt_opts_def_t * opts) {
     int i;
 
     printf("Usage: %s %s\nOptions:\n", name, help ? help : "");
 
     for (i = 0; opts[i].cb != NULL; i++) {
-        if (_zt_opt_help_stdout_printer(&opts[i]) < 0) {
+        if (_zt_opts_help_stdout_printer(&opts[i]) < 0) {
             return -1;
         }
     }
@@ -394,12 +394,12 @@ zt_opt_usage(const char * name, const char * help, zt_opt_def_t * opts) {
 }
 
 void
-zt_opt_validate_default(zt_opt_def_t * args, zt_opt_error error) {
+zt_opts_validate_default(zt_opts_def_t * args, zt_opts_error error) {
     int i;
     int x;
 
     for (i = 0; args[i].cb; i++) {
-        if (args[i].sopt == ZT_OPT_NSO && args[i].lopt == ZT_OPT_NLO) {
+        if (args[i].sopt == zt_opts_NSO && args[i].lopt == zt_opts_NLO) {
             error(EINVAL, "Invalid argdef initialization #%d (must include at least one of short opt or long opt)", i);
         }
 
@@ -407,7 +407,7 @@ zt_opt_validate_default(zt_opt_def_t * args, zt_opt_error error) {
             error(EINVAL, "Invalid argdef initialization #%d (must include help definition)", i);
         }
 
-        if (args[i].sopt != ZT_OPT_NSO &&
+        if (args[i].sopt != zt_opts_NSO &&
             ((args[i].sopt < '0' || args[i].sopt > '9') &&   /* 0x30-0x39 */
              (args[i].sopt < 'A' || args[i].sopt > 'Z') &&   /* 0x41-0x5A */
              (args[i].sopt < 'a' || args[i].sopt > 'z'))) {  /* 0x61-0x7A */
@@ -420,11 +420,11 @@ zt_opt_validate_default(zt_opt_def_t * args, zt_opt_error error) {
                 continue;
             }
 
-            if (args[x].sopt != ZT_OPT_NSO && args[x].sopt == args[i].sopt) {
+            if (args[x].sopt != zt_opts_NSO && args[x].sopt == args[i].sopt) {
                 error(EINVAL, "Duplicate short options: #%d and #%d", i, x);
             }
 
-            if (args[x].lopt != ZT_OPT_NLO && args[i].lopt != ZT_OPT_NLO &&
+            if (args[x].lopt != zt_opts_NLO && args[i].lopt != zt_opts_NLO &&
                     (strcmp(args[x].lopt, args[i].lopt) == 0)) {
                 error(EINVAL, "Duplicate long options: #%d and #%d", i, x);
             }
@@ -433,12 +433,12 @@ zt_opt_validate_default(zt_opt_def_t * args, zt_opt_error error) {
 }
 
 static int
-_zt_opt_error_wrapper(int code, char * fmt, ...) {
+_zt_opts_error_wrapper(int code, char * fmt, ...) {
     int     ret;
     va_list ap;
 
     va_start(ap, fmt);
-    ret = zt_opt_verror_default(code, fmt, ap);
+    ret = zt_opts_verror_default(code, fmt, ap);
     va_end(ap);
 
     if (ret != 0) {
@@ -449,11 +449,11 @@ _zt_opt_error_wrapper(int code, char * fmt, ...) {
 }
 
 int
-zt_opt_process_args(int * argc, char ** argv, zt_opt_def_t * args, zt_opt_validate validate, zt_opt_error error) {
+zt_opts_process_args(int * argc, char ** argv, zt_opts_def_t * args, zt_opts_validate validate, zt_opts_error error) {
     int i;
 
-    error    = error ? error : _zt_opt_error_wrapper;
-    validate = validate ? validate : zt_opt_validate_default;
+    error    = error ? error : _zt_opts_error_wrapper;
+    validate = validate ? validate : zt_opts_validate_default;
 
     validate(args, error);
 
@@ -481,9 +481,9 @@ zt_opt_process_args(int * argc, char ** argv, zt_opt_def_t * args, zt_opt_valida
 
 AGAIN:
             for (x = 0; args[x].cb; x++) {
-                if ((len == 0 && args[x].sopt != ZT_OPT_NSO && *p == args[x].sopt) || /* short opt */
+                if ((len == 0 && args[x].sopt != zt_opts_NSO && *p == args[x].sopt) || /* short opt */
                     /* long opt */
-                    (args[x].lopt != ZT_OPT_NLO && strlen(args[x].lopt) == len &&
+                    (args[x].lopt != zt_opts_NLO && strlen(args[x].lopt) == len &&
                      strncmp(p, args[x].lopt, len) == 0)) {
                     int consumed = 0;
 
@@ -520,5 +520,5 @@ AGAIN:
     *argc = i;
 
     return 0;
-} /* zt_opt_process_args */
+} /* zt_opts_process_args */
 
